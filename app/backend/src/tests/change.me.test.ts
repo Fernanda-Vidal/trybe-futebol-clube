@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+// import Example from '../database/models/ExampleModel.ts';
 
 import { Response } from 'superagent';
 
@@ -76,5 +76,14 @@ describe('Teste da rota POST /login', () => {
       expect(httpResponse.status).to.be.eq(401);
       expect(httpResponse.body).to.deep.equal({ message: 'Incorrect email or password'})
     })
+
+    it('quando o campo "password" não existir no banco de dados', async () => {
+      const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'admin@admin.com', password: 'qualquerSenha' })
+      expect(httpResponse.status).to.be.eq(401);
+      expect(httpResponse.body).to.deep.equal({ message: 'Incorrect email or password'})
+    });
   })
 });
