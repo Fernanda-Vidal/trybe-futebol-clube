@@ -5,12 +5,21 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 // import Example from '../database/models/ExampleModel.ts';
+// import userModel from '../database/models/User'
+// import token from '../utils/token'
 
 import { Response } from 'superagent';
+import { encode } from 'punycode';
+import { use } from 'chai';
+import { Model } from 'sequelize';
+import User from '../database/models/User';
+// import exp from 'constants';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
+
+const mock = { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NjYxODkyNiwiZXhwIjoxNjY2NjE5ODI2fQ.aTU2x0diACIOEAAUWg2Ld77HH8mlbYm9OxzuYgkdtSM" }
 
 describe('Teste da rota POST /login', () => {
   /**
@@ -85,5 +94,19 @@ describe('Teste da rota POST /login', () => {
       expect(httpResponse.status).to.be.eq(401);
       expect(httpResponse.body).to.deep.equal({ message: 'Incorrect email or password'})
     });
+  })
+
+  describe('deve retornar um status 200', () => {
+    it('quando os campos "email" e "password" estiverem corretos', async () => {
+      const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
+      before(() => { sinon.stub(Model, 'findOne').resolves(user as User)})
+      after(() => sinon.restore())
+      const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'admin@admin.com', password: 'secret_admin' })
+      expect(httpResponse.status).to.be.eq(200);
+      expect(httpResponse.body).to.have.all.keys(['token']);
+    })
   })
 });
