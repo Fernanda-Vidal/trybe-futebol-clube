@@ -1,5 +1,5 @@
 import jwt = require('jsonwebtoken');
-import { Secret, SignOptions, JwtPayload } from 'jsonwebtoken';
+import { Secret, SignOptions } from 'jsonwebtoken';
 import dotenv = require('dotenv');
 import { IUser } from '../interfaces';
 
@@ -7,7 +7,7 @@ dotenv.config();
 
 const TOKEN_SECRET = process.env.JWT_SECRET;
 
-const encode = (payload: any) => {
+const encode = (payload: Omit<IUser, 'email' | 'password'>) => {
   const jwtConfig = {
     expiresIn: '15m',
     algorithm: 'HS256',
