@@ -7,7 +7,7 @@ export default class UserController {
   }
 
   async login(req: Request, res: Response): Promise<Response | void> {
-    const serv = await this.userService.login(req.body);
-    return res.status(200).json({ message: serv });
+    const token = await this.userService.login(req.body);
+    return res.status(200).json({ token });
   }
 }
