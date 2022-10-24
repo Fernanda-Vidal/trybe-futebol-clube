@@ -3,15 +3,14 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
+import { Model } from 'sequelize';
 import { app } from '../app';
-// import Example from '../database/models/ExampleModel.ts';
-// import userModel from '../database/models/User'
-// import token from '../utils/token'
+const jwt = require('jsonwebtoken');
+
 
 import { Response } from 'superagent';
 import { encode } from 'punycode';
 import { use } from 'chai';
-import { Model } from 'sequelize';
 import User from '../database/models/User';
 // import exp from 'constants';
 
@@ -96,7 +95,7 @@ describe('Teste da rota POST /login', () => {
     });
   })
 
-  describe('deve retornar um status 200', () => {
+  describe('deve retornar um status 200', async () => {
     it('quando os campos "email" e "password" estiverem corretos', async () => {
       const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
       before(() => { sinon.stub(Model, 'findOne').resolves(user as User)})
@@ -108,5 +107,26 @@ describe('Teste da rota POST /login', () => {
       expect(httpResponse.status).to.be.eq(200);
       expect(httpResponse.body).to.have.all.keys(['token']);
     })
+
+    it('quando é enviado um token é valido na rota /login/validate', async () => {
+      const token = { username: 'Admin',
+      id: 1,
+      role: 'admin',
+      iat: 1666644182,
+      exp: 1666645082}
+      const testToken = 'test';
+      const testSecret = 'test secret';
+      before(() => { 
+        sinon.stub(jwt, 'verify').returns(token);
+      })
+      after(() => sinon.restore())
+      const httpResponse = await chai
+      .request(app)
+      .get('/login/validate')
+      .send({ email: 'admin@admin.com', password: 'secret_admin' })
+      expect(httpResponse.status).to.be.equal(200);
+      expect(httpResponse.body).to.deep.equal({ "role": "admin" })
+    })
   })
+
 });
