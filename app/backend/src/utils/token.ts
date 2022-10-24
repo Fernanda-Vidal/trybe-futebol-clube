@@ -1,6 +1,7 @@
 import jwt = require('jsonwebtoken');
-import { Secret, SignOptions } from 'jsonwebtoken';
+import { Secret, SignOptions, JwtPayload } from 'jsonwebtoken';
 import dotenv = require('dotenv');
+import { IUser } from '../interfaces';
 
 dotenv.config();
 
@@ -16,4 +17,13 @@ const encode = (payload: any) => {
   return token;
 };
 
-export default encode;
+const decode = (token: string) => {
+  try {
+    const validate = jwt.verify(token, TOKEN_SECRET as Secret) as IUser;
+    return validate.role;
+  } catch (error) {
+    return false;
+  }
+};
+
+export { encode, decode };
