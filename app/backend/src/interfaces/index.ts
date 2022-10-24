@@ -12,6 +12,6 @@ export interface IUser {
 }
 
 export interface IUserService {
-  login(user: ILogin): string;
-  authenticate(token: string): string;
+  login(user: ILogin): Promise<string>;
+  authenticate(token: string): Promise<string | boolean>;
 }

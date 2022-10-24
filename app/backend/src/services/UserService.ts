@@ -3,11 +3,11 @@ import {
 } from 'http-status-codes';
 import bcrypt = require ('bcryptjs');
 import HttpException from '../utils/HttpException';
-import { ILogin } from '../interfaces';
+import { ILogin, IUserService } from '../interfaces';
 import User from '../database/models/User';
 import { decode, encode } from '../utils/token';
 
-export default class UserService {
+export default class UserService implements IUserService {
   constructor(private model: typeof User = User) {
     this.login = this.login.bind(this);
   }
@@ -24,7 +24,7 @@ export default class UserService {
     return encode({ username, id, role });
   }
 
-  authenticate = async (authorization: string) => {
+  authenticate = async (authorization: string): Promise<string | boolean> => {
     const user = decode(authorization);
     return user;
   };

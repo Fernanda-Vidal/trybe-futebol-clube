@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import HttpException from '../utils/HttpException';
-import UserService from '../services/UserService';
+import { IUserService } from '../interfaces';
 
 export default class UserController {
-  constructor(private userService: UserService = new UserService()) {
+  constructor(private userService: IUserService) {
     this.login = this.login.bind(this);
     this.authenticate = this.authenticate.bind(this);
   }
