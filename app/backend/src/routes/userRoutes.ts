@@ -5,9 +5,9 @@ import UserService from '../services/UserService';
 
 const userService = new UserService();
 const userController = new UserController(userService);
-const router = Router();
+const userRoute = Router();
 
-router.post('/login', loginMiddleware, userController.login);
-router.get('/login/validate', userController.authenticate);
+userRoute.post('/login', loginMiddleware, userController.login);
+userRoute.get('/login/validate', userController.authenticate);
 
-export default router;
+export default userRoute;
