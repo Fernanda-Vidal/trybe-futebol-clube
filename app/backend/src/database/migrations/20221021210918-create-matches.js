@@ -37,7 +37,7 @@ module.exports = {
                 allowNull: false,
             },
             in_progress: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BOOLEAN,
                 allowNull: false,
             },
         }, {
@@ -45,7 +45,7 @@ module.exports = {
         })
     },
 
-    async down(queryInterface, Sequelize) {
+    async down(queryInterface, _Sequelize) {
         await queryInterface.dropTable('matches');
     }
 };

@@ -1,42 +1,21 @@
-import { INTEGER, Model } from 'sequelize';
+import { INTEGER, Model, BOOLEAN } from 'sequelize';
 import db from '.';
-import Team from './Team';
 
-class Matche extends Model {
+class Match extends Model {
   id!: number;
   homeTeam!: number;
   homeTeamGoals!: number;
   awayTeam!: number;
   awayTeamGoals!: number;
-  inProgress!: number;
+  inProgress!: boolean;
 }
 
-Matche.init({
-  id: {
-    type: INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  homeTeam: {
-    type: INTEGER,
-    allowNull: false,
-  },
-  homeTeamGoals: {
-    type: INTEGER,
-    allowNull: false,
-  },
-  awayTeam: {
-    type: INTEGER,
-  },
-  awayTeamGoals: {
-    type: INTEGER,
-    allowNull: false,
-  },
-  inProgress: {
-    type: INTEGER,
-    allowNull: false,
-  },
+Match.init({
+  homeTeam: INTEGER,
+  homeTeamGoals: INTEGER,
+  awayTeam: INTEGER,
+  awayTeamGoals: INTEGER,
+  inProgress: BOOLEAN,
 }, {
   sequelize: db,
   modelName: 'matches',
@@ -44,7 +23,4 @@ Matche.init({
   underscored: true,
 });
 
-Matche.belongsTo(Team, { foreignKey: 'homeTeam', as: 'homeTeam' });
-Matche.belongsTo(Team, { foreignKey: 'awayTeam', as: 'awayTeam' });
-
-export default Matche;
+export default Match;
