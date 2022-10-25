@@ -1,3 +1,4 @@
+import { ITeams } from '../interfaces';
 import Team from '../database/models/Team';
 
 export default class TeamService {
@@ -7,12 +8,12 @@ export default class TeamService {
     this.getTeamById = this.getTeamById.bind(this);
   }
 
-  async getAllTeams(): Promise<any> {
+  async getAllTeams(): Promise<ITeams[]> {
     const teams = await this.model.findAll();
     return teams;
   }
 
-  async getTeamById(id: number): Promise<any> {
+  async getTeamById(id: number): Promise<ITeams | null> {
     const team = await this.model.findByPk(id);
     return team;
   }

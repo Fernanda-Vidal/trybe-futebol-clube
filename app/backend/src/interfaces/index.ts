@@ -15,3 +15,8 @@ export interface IUserService {
   login(user: ILogin): Promise<string>;
   authenticate(token: string): Promise<string | boolean>;
 }
+
+export interface ITeams {
+  id: number;
+  teamName: string;
+}
