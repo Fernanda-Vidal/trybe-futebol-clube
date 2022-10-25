@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import HttpException from '../utils/HttpException';
-import TeamService from '../services/TeamService';
+import { ITeamService } from '../interfaces';
 
 export default class TeamController {
-  constructor(private teamService: TeamService) {
+  constructor(private teamService: ITeamService) {
     this.getAllTeams = this.getAllTeams.bind(this);
     this.getTeamById = this.getTeamById.bind(this);
   }

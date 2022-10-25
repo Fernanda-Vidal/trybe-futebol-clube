@@ -6,7 +6,6 @@ const teamService = new TeamService();
 const teamController = new TeamController(teamService);
 const teamsRoute = Router();
 
-// teamsRoute.get('/teams', (req, res) => res.sendStatus(200));
 teamsRoute.get('/teams/:id', teamController.getTeamById);
 teamsRoute.get('/teams', teamController.getAllTeams);
 

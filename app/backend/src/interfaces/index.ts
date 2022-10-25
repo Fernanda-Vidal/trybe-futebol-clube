@@ -20,3 +20,8 @@ export interface ITeams {
   id: number;
   teamName: string;
 }
+
+export interface ITeamService {
+  getAllTeams(): Promise<ITeams[]>;
+  getTeamById(id: number): Promise<ITeams | null>
+}
