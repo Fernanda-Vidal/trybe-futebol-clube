@@ -28,6 +28,6 @@ export interface ITeamService {
   getTeamById(id: number): Promise<ITeams | null>
 }
 
-export interface IMatcheService {
+export interface IMatchService {
   getAllMatches(): Promise<Match[]>
 }

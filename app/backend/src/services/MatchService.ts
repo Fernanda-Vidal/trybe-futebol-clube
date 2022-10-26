@@ -1,8 +1,8 @@
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
-import { IMatcheService } from '../interfaces';
+import { IMatchService } from '../interfaces';
 
-export default class MatcheService implements IMatcheService {
+export default class MatchService implements IMatchService {
   private model = Match;
   constructor() {
     this.getAllMatches = this.getAllMatches.bind(this);
