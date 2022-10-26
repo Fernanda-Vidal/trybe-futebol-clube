@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
-import { IMatchService } from '../interfaces';
+import { IMatchService, INewMatch, IReqMatch } from '../interfaces';
 import HttpException from '../utils/HttpException';
 
 export default class MatchService implements IMatchService {
@@ -9,6 +9,7 @@ export default class MatchService implements IMatchService {
   constructor() {
     this.getAllMatches = this.getAllMatches.bind(this);
     this.getByInProgress = this.getByInProgress.bind(this);
+    this.createMatch = this.createMatch.bind(this);
   }
 
   async getAllMatches(): Promise<Match[]> {
@@ -34,5 +35,11 @@ export default class MatchService implements IMatchService {
     if (!searchMatches) throw new HttpException('No matches found!', StatusCodes.NOT_FOUND);
 
     return searchMatches;
+  }
+
+  async createMatch(req: IReqMatch): Promise<INewMatch> {
+    const newMatch = { ...req, inProgress: true };
+    const match = await this.model.create(newMatch);
+    return match;
   }
 }

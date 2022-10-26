@@ -4,6 +4,7 @@ import { IMatchService } from '../interfaces';
 export default class MatcheController {
   constructor(private matchService: IMatchService) {
     this.getMatches = this.getMatches.bind(this);
+    this.createMatch = this.createMatch.bind(this);
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
@@ -13,5 +14,10 @@ export default class MatcheController {
     }
     const searchMatches = await this.matchService.getAllMatches();
     return res.status(200).json(searchMatches);
+  }
+
+  async createMatch(req: Request, res: Response): Promise<Response> {
+    const match = await this.matchService.createMatch(req.body);
+    return res.status(201).json(match);
   }
 }

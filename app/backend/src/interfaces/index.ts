@@ -28,7 +28,24 @@ export interface ITeamService {
   getTeamById(id: number): Promise<ITeams | null>
 }
 
+export interface IReqMatch {
+  homeTeam: number;
+  awayTeam: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
 export interface IMatchService {
   getAllMatches(): Promise<Match[]>
   getByInProgress(search: string): Promise<Match[]>
+  createMatch(req: IReqMatch): Promise<INewMatch>
+}
+
+export interface INewMatch {
+  id: number,
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
 }
