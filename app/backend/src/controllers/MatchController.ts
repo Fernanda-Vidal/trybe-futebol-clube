@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import MatcheService from '../services/MatcheService';
+import { IMatcheService } from '../interfaces';
 
 export default class MatcheController {
-  constructor(private matcheService: MatcheService = new MatcheService()) {
+  constructor(private matcheService: IMatcheService) {
     this.getAllMatches = this.getAllMatches.bind(this);
   }
 
