@@ -30,4 +30,5 @@ export interface ITeamService {
 
 export interface IMatchService {
   getAllMatches(): Promise<Match[]>
+  getByInProgress(search: string): Promise<any>
 }
