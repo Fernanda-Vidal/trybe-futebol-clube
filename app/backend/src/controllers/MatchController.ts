@@ -4,7 +4,6 @@ import { IMatchService } from '../interfaces';
 export default class MatcheController {
   constructor(private matchService: IMatchService) {
     this.getMatches = this.getMatches.bind(this);
-    // this.getByInProgress = this.getByInProgress.bind(this);
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
