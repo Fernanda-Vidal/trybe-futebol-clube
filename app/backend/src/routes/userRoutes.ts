@@ -7,7 +7,7 @@ const userService = new UserService();
 const userController = new UserController(userService);
 const userRoute = Router();
 
-userRoute.post('/login', loginMiddleware, userController.login);
-userRoute.get('/login/validate', userController.authenticate);
+userRoute.post('/', loginMiddleware, userController.login);
+userRoute.get('/validate', userController.authenticate);
 
 export default userRoute;
