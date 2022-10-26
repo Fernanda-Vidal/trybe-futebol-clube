@@ -65,7 +65,7 @@ export const teamsMock = [
     },
   ]
 
-  export const matches = [
+  export const matchesMock = [
     {
       "id": 1,
       "homeTeam": 16,

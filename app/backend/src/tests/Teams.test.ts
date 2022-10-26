@@ -23,13 +23,11 @@ describe('Teste da rota /teams', () => {
         })
 
         it('retorna corretamente o time buscando por id', async () => {
-            // beforeEach(() => sinon.stub(Model, 'findByPk')).resolves(teamsMock[3] as ITeams)
-            // afterEach(() => sinon.restore())
             const httpResponse = await chai
             .request(app)
             .get('/teams/4')
             expect(httpResponse.status).to.be.eq(200);
-            // expect(httpResponse.body).to.be.deep.equal(teamsMock[3]);
+            expect(httpResponse.body).to.be.deep.equal(teamsMock[3]);
         })
     })
 })

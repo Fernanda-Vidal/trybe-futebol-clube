@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+const jwt = require('jsonwebtoken');
 
 // @ts-ignore
 import chaiHttp = require('chai-http');
@@ -9,6 +10,7 @@ import { app } from '../app';
 import { Model } from 'sequelize';
 import User from '../database/models/User';
 import UserService from '../services/UserService';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 chai.use(chaiHttp);
 
@@ -66,30 +68,20 @@ describe('Teste da rota /login', () => {
     });
   })
 
-  describe('quando dados estão corretos e quando token é inválido', () => {
+  describe('quando dados estão corretos', () => {
+    const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
+    beforeEach(() => {
+      sinon.stub(Model, 'findOne').resolves(user as User)
+    })
+    afterEach(() => sinon.restore())
+
     it('POST - quando os campos "email" e "password" estiverem corretos', async () => {
-      const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
-      beforeEach(() => {sinon.stub(Model, 'findOne').resolves(user as User)})
-      afterEach(() => sinon.restore())
-      
       const httpResponse = await chai
       .request(app)
       .post('/login')
       .send({ email: 'admin@admin.com', password: 'secret_admin' })
       expect(httpResponse.status).to.be.eq(200);
       expect(httpResponse.body).to.have.property('token');
-    })
-
-    it('GET - quando é enviado um token inválido na rota /login/validate', async () => {
-      beforeEach(() =>  sinon.stub(UserService.prototype, 'authenticate').resolves(false))
-      afterEach(() => sinon.restore())
-      
-      const httpResponse = await chai
-      .request(app)
-      .get('/login/validate')
-      .send({ email: 'admin@admin.com', password: 'secret_admin' })
-      expect(httpResponse.status).to.be.equal(401);
-      expect(httpResponse.body).to.deep.equal({ message: 'Invalid Token' })
     })
   })
 });
