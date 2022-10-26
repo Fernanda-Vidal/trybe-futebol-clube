@@ -8,12 +8,11 @@ export default class MatcheController {
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
-    let searchMatches;
     if (req.query.inProgress) {
-      searchMatches = await this.matchService.getByInProgress(req.query.inProgress as string);
+      const searchMatches = await this.matchService.getByInProgress(req.query.inProgress as string);
       return res.status(200).json(searchMatches);
     }
-    searchMatches = await this.matchService.getAllMatches();
+    const searchMatches = await this.matchService.getAllMatches();
     return res.status(200).json(searchMatches);
   }
 }
