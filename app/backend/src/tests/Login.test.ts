@@ -1,6 +1,7 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-const jwt = require('jsonwebtoken');
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
 
 // @ts-ignore
 import chaiHttp = require('chai-http');
@@ -10,7 +11,6 @@ import { app } from '../app';
 import { Model } from 'sequelize';
 import User from '../database/models/User';
 import UserService from '../services/UserService';
-import { JsonWebTokenError } from 'jsonwebtoken';
 
 chai.use(chaiHttp);
 
@@ -72,6 +72,7 @@ describe('Teste da rota /login', () => {
     const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
     beforeEach(() => {
       sinon.stub(Model, 'findOne').resolves(user as User)
+      sinon.stub(bcrypt, 'compareSync').resolves(true)
     })
     afterEach(() => sinon.restore())
 
@@ -80,8 +81,44 @@ describe('Teste da rota /login', () => {
       .request(app)
       .post('/login')
       .send({ email: 'admin@admin.com', password: 'secret_admin' })
-      expect(httpResponse.status).to.be.eq(200);
+      expect(httpResponse.status).to.be.equal(200);
       expect(httpResponse.body).to.have.property('token');
     })
   })
+
+  describe('quando dados estão corretos', () => {
+    const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admin' }
+    beforeEach(() => {
+      sinon.stub(Model, 'findOne').resolves(user as User)
+      sinon.stub(bcrypt, 'compareSync').resolves(true)
+    })
+    afterEach(() => sinon.restore())
+
+    it('POST - quando os campos "email" e "password" estiverem corretos', async () => {
+      const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'admin@admin.com', password: 'secret_admin' })
+      expect(httpResponse.status).to.be.equal(200);
+      expect(httpResponse.body).to.have.property('token');
+    })
+  })
+
+  // describe('quando a senha está incorreta', () => {
+  //   const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admi' }
+  //   beforeEach(() => {
+  //     sinon.stub(Model, 'findOne').resolves(user as User)
+  //     sinon.stub(bcrypt, 'compareSync').resolves(false)
+  //   })
+  //   afterEach(() => sinon.restore())
+
+  //   it('POST - quando os campos "email" e "password" estiverem corretos', async () => {
+  //     const httpResponse = await chai
+  //     .request(app)
+  //     .post('/login')
+  //     .send({ email: 'admin@admin.com', password: 'secret_admi' })
+  //     expect(httpResponse.status).to.be.equal(401);
+  //     expect(httpResponse.body).to.have.property('Invalid Token');
+  //   })
+  // })
 });

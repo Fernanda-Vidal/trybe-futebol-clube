@@ -9,10 +9,8 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-import { matchesMock } from './mocks/mocks';
+import { matchesMock, newMatchMock } from './mocks/mocks';
 import { Model } from 'sequelize/';
-
-// chai.use(chaiHTTP)
 
 describe('Teste da rota /matches', () => {
   describe('GET', () => {
@@ -29,6 +27,26 @@ describe('Teste da rota /matches', () => {
         .get('/matches')
       expect(httpResponse.status).to.be.eq(200);
       expect(httpResponse.body).to.have.deep.equal(matchesMock);
+    })
+  })
+
+  describe('POST', () => {
+    const req = {
+      "homeTeam": 16, 
+      "awayTeam": 8, 
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+    }
+    beforeEach(() => sinon.stub(Model, 'create').resolves(newMatchMock as any))
+    afterEach(() => sinon.restore());
+
+    it('é possível salvar uma partida', async () => {
+      const httpResponse = await chai
+      .request(app)
+      .post('/matches')
+      .send(req)
+    expect(httpResponse.status).to.be.eq(201);
+    expect(httpResponse.body).to.have.deep.equal(newMatchMock);
     })
   })
 })
