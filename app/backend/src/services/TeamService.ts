@@ -1,7 +1,7 @@
-import { ITeams } from '../interfaces';
+import { ITeams, ITeamService } from '../interfaces';
 import Team from '../database/models/Team';
 
-export default class TeamService {
+export default class TeamService implements ITeamService {
   private model = Team;
   constructor() {
     this.getAllTeams = this.getAllTeams.bind(this);
