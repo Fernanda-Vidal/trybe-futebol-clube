@@ -1,3 +1,5 @@
+import Match from '../database/models/Match';
+
 export interface ILogin {
   email: string,
   password: string,
@@ -24,4 +26,8 @@ export interface ITeams {
 export interface ITeamService {
   getAllTeams(): Promise<ITeams[]>;
   getTeamById(id: number): Promise<ITeams | null>
+}
+
+export interface IMatcheService {
+  getAllMatches(): Promise<Match[]>
 }
