@@ -40,7 +40,7 @@ export default class MatchService implements IMatchService {
     return searchMatches;
   }
 
-  async getTeam(ids: number[]): Promise<any> {
+  async getTeam(ids: number[]): Promise<boolean> {
     const idExist = await (await (await Promise.all(ids.map((id) => this.teamModel.findByPk(id))))
       .every((team) => team !== null));
     console.log('getTeam', idExist);
