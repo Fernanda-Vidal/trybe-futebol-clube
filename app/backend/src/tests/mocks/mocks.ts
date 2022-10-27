@@ -748,3 +748,12 @@ export const teamsMock = [
     "awayTeamGoals": 2,
     "inProgress": true,
   }
+
+  export const newMatchUpdated = {
+    "id": 1,
+    "homeTeam": 16,
+    "homeTeamGoals": 2,
+    "awayTeam": 8,
+    "awayTeamGoals": 2,
+    "inProgress": false,
+  }
