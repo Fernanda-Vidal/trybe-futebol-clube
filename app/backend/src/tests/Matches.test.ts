@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-import { matchesMock, newMatchMock, newMatchUpdated, payloadToken } from './mocks/mocks';
+import { inProgress, matchesMock, newMatchMock, newMatchUpdated, payloadToken } from './mocks/mocks';
 import { Model } from 'sequelize/';
 import { INewMatch } from '../interfaces';
 
@@ -31,6 +31,19 @@ describe('Teste da rota /matches', () => {
     })
   })
 
+  describe('1- GET', () => {
+    beforeEach(() => sinon.stub(Model, 'findAll').resolves(inProgress as any))
+    afterEach(() => sinon.restore())
+    
+    it('retorna somente as partidas em progresso', async () => {
+      const httpResponse = await chai
+        .request(app)
+        .get('/matches?inProgress=true')
+      expect(httpResponse.status).to.be.eq(200);
+      expect(httpResponse.body).to.have.deep.equal(inProgress);
+    })
+  })
+
   describe('2- POST', () => {
     const req = {
       "homeTeam": 16, 
@@ -39,17 +52,9 @@ describe('Teste da rota /matches', () => {
       "awayTeamGoals": 2,
     }
 
-    const payload = {
-      username: 'Admin',
-      id: 1,
-      role: 'admin',
-      iat: 1666889086,
-      exp: 1666889986
-    }
-
     beforeEach(() => {
       sinon.stub(Model, 'create').resolves(newMatchMock as any)
-      sinon.stub(jwt, 'verify').resolves(payload)
+      sinon.stub(jwt, 'verify').resolves(payloadToken)
   })
     afterEach(() => sinon.restore())
     
@@ -63,7 +68,7 @@ describe('Teste da rota /matches', () => {
     })
   })
 
-  describe.only('3- POST', () => {
+  describe('3- POST', () => {
     const req = {
       "homeTeam": 8, 
       "awayTeam": 8, 
@@ -71,34 +76,39 @@ describe('Teste da rota /matches', () => {
       "awayTeamGoals": 2,
     }
 
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2Njg4ODAxMSwiZXhwIjoxNjY2ODg4OTExfQ.1-FhS9WzDokms9dt29-vHCXEpFs4z-3yX6PCOsxMx3o';
-
-    beforeEach(() => sinon.stub(jwt, 'verify').resolves(payloadToken))
+    
+    beforeEach(() => {
+      sinon.stub(jwt, 'verify').resolves(payloadToken)
+      sinon.stub(Model, 'create').resolves(newMatchUpdated as any)
+    })
     afterEach(() => sinon.restore())
     
     it('não é possível salvar uma partida com ids iguais', async () => {
-  const message = 'It is not possible to create a match with two equal teams';
+      const message = 'It is not possible to create a match with two equal teams';
       const httpResponse = await chai
       .request(app)
       .post('/matches')
       .send(req)
-      expect(httpResponse.status).to.be.eq(401);
+      expect(httpResponse.status).to.be.eq(422);
       expect(httpResponse.body).to.have.deep.equal({ message: message });
     })
   })
   
   describe('4- PATCH', () => {
     beforeEach(() => {
-      // sinon.stub(jwt, 'verify').resolves(payloadToken)
+      sinon.stub(jwt, 'verify').resolves(payloadToken)
       sinon.stub(Model, 'findByPk').resolves(newMatchMock as any)
-      sinon.stub(Model, 'update').resolves(true as any)
+      sinon.stub(Model, 'update').resolves([{ lineUpdate : 1}] as any)
     })
+    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2Njg4ODAxMSwiZXhwIjoxNjY2ODg4OTExfQ.1-FhS9WzDokms9dt29-vHCXEpFs4z-3yX6PCOsxMx3o';
     afterEach(() => sinon.restore())
     
     it('é possível alterar o progresso de uma partida', async () => {
       const httpResponse = await chai
       .request(app)
       .patch('/matches/1/finish')
+      .send()
+      .set('Authorization', 'token')
       expect(httpResponse.status).to.be.eq(200);
       expect(httpResponse.body).to.have.deep.equal({ message: 'Finished' });
     })
