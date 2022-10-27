@@ -87,4 +87,11 @@ export default class MatchService implements IMatchService {
     }
     return true;
   }
+
+  // async totalPoints() {
+  //   const matches = this.model.findAll({ where: { inProgress: false } });
+  //   const teams = (await matches).reduce<any>((acc, curr) => {
+  //     acc[curr.id]
+  //   }, {});
+  // }
 }

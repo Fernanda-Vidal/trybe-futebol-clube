@@ -38,8 +38,18 @@ describe('Teste da rota /login', () => {
       expect(httpResponse.body).to.deep.equal({ message: 'All fields must be filled' });
     })
   })
+  
 
   describe('POST - deve retornar um status 401', () => {
+    it('quando o campo "email" for inválido', async () => {
+      const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'any-emailany.com', password: 'secret_admin' })
+      expect(httpResponse.status).to.be.eq(401);
+      expect(httpResponse.body).to.deep.equal({ message: 'Incorrect email or password'})
+    });
+
     it('quando o campo "email" estiver incorreto', async () => {
       const httpResponse = await chai
       .request(app)

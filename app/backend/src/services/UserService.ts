@@ -5,7 +5,7 @@ import bcrypt = require ('bcryptjs');
 import HttpException from '../utils/HttpException';
 import { ILogin, IUserService } from '../interfaces';
 import User from '../database/models/User';
-import { decode, encode } from '../utils/token';
+import { encode } from '../utils/token';
 
 export default class UserService implements IUserService {
   constructor(private model: typeof User = User) {
@@ -23,10 +23,4 @@ export default class UserService implements IUserService {
     const { username, id, role } = user;
     return encode({ username, id, role });
   }
-
-  // authenticate = async (authorization: string): Promise<string | boolean> => {
-  //   const user = decode(authorization);
-
-  //   return user;
-  // };
 }

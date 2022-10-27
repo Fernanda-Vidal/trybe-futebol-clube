@@ -16,7 +16,6 @@ import { INewMatch } from '../interfaces';
 
 describe('Teste da rota /matches', () => {
   describe('1- GET', () => {
-    // const inprogress = matchesMock.filter(({ inProgress }) => inProgress === true)
     beforeEach(() => {
       sinon.stub(Model, 'findAll').resolves(matchesMock as any)
       // sinon.stub(Model, 'findOne').resolves(inprogress as any)
@@ -64,24 +63,17 @@ describe('Teste da rota /matches', () => {
     })
   })
 
-  describe('3- POST', () => {
+  describe.only('3- POST', () => {
     const req = {
-      "homeTeam": 5, 
+      "homeTeam": 8, 
       "awayTeam": 8, 
       "homeTeamGoals": 2,
       "awayTeamGoals": 2,
     }
 
-    const payload = {
-      username: 'Admin',
-      id: 1,
-      role: 'admin',
-      iat: 1666889086,
-      exp: 1666889986
-    }
     // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2Njg4ODAxMSwiZXhwIjoxNjY2ODg4OTExfQ.1-FhS9WzDokms9dt29-vHCXEpFs4z-3yX6PCOsxMx3o';
 
-    beforeEach(() => sinon.stub(jwt, 'verify').resolves(payload))
+    beforeEach(() => sinon.stub(jwt, 'verify').resolves(payloadToken))
     afterEach(() => sinon.restore())
     
     it('não é possível salvar uma partida com ids iguais', async () => {
@@ -95,9 +87,9 @@ describe('Teste da rota /matches', () => {
     })
   })
   
-  describe.only('4- PATCH', () => {
+  describe('4- PATCH', () => {
     beforeEach(() => {
-      sinon.stub(jwt, 'verify').resolves(payloadToken)
+      // sinon.stub(jwt, 'verify').resolves(payloadToken)
       sinon.stub(Model, 'findByPk').resolves(newMatchMock as any)
       sinon.stub(Model, 'update').resolves(true as any)
     })

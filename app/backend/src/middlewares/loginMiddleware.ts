@@ -15,7 +15,7 @@ export default function loginMiddleware(req: Request, _res: Response, next: Next
     throw new HttpException('All fields must be filled', StatusCodes.BAD_REQUEST);
   }
 
-  if (!isValidEmail) {
+  if (!isValidEmail(email)) {
     throw new HttpException('Incorrect email or password', StatusCodes.UNAUTHORIZED);
   }
 
