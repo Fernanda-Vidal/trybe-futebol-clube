@@ -15,10 +15,9 @@ export default class UserController {
   }
 
   async authenticate(req: Request, res: Response): Promise<Response> {
-    const authorization = req.header('Authorization') as string;
-    const user = await this.userService.authenticate(authorization);
+    console.log(this.authenticate);
 
-    if (!user) throw new HttpException('Invalid Token', StatusCodes.UNAUTHORIZED);
-    return res.status(200).json({ role: user });
+    if (!req.body.user) throw new HttpException('Invalid Token', StatusCodes.UNAUTHORIZED);
+    return res.status(200).json({ role: req.body.user.role });
   }
 }

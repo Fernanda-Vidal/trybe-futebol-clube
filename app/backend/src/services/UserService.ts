@@ -24,9 +24,9 @@ export default class UserService implements IUserService {
     return encode({ username, id, role });
   }
 
-  authenticate = async (authorization: string): Promise<string | boolean> => {
-    const user = decode(authorization);
+  // authenticate = async (authorization: string): Promise<string | boolean> => {
+  //   const user = decode(authorization);
 
-    return user.role;
-  };
+  //   return user;
+  // };
 }

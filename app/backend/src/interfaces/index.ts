@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import Match from '../database/models/Match';
 
 export interface ILogin {
@@ -15,7 +16,7 @@ export interface IUser {
 
 export interface IUserService {
   login(user: ILogin): Promise<string>;
-  authenticate(token: string): Promise<string | boolean>;
+  // authenticate(token: string): Promise<string | boolean>;
 }
 
 export interface ITeams {

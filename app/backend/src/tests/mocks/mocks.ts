@@ -757,3 +757,11 @@ export const teamsMock = [
     "awayTeamGoals": 2,
     "inProgress": false,
   }
+
+  export const payloadToken = {
+    username: 'Admin',
+    id: 1,
+    role: 'admin',
+    iat: 1666889086,
+    exp: 1666889986
+  }
