@@ -35,11 +35,17 @@ export interface IReqMatch {
   awayTeamGoals: number;
 }
 
+export interface IReqGoals {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
 export interface IMatchService {
   getAllMatches(): Promise<Match[]>;
   getByInProgress(search: string): Promise<Match[]>;
   createMatch(req: IReqMatch): Promise<INewMatch>;
-  updateMatch(id:number): Promise<boolean>;
+  updateProgress(id:number): Promise<boolean>;
+  updateGoals(req: IReqGoals, id: number): Promise<any>;
 }
 
 export interface INewMatch {
