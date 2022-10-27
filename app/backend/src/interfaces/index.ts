@@ -36,9 +36,10 @@ export interface IReqMatch {
 }
 
 export interface IMatchService {
-  getAllMatches(): Promise<Match[]>
-  getByInProgress(search: string): Promise<Match[]>
-  createMatch(req: IReqMatch): Promise<INewMatch>
+  getAllMatches(): Promise<Match[]>;
+  getByInProgress(search: string): Promise<Match[]>;
+  createMatch(req: IReqMatch): Promise<INewMatch>;
+  updateMatch(id:number): Promise<boolean>;
 }
 
 export interface INewMatch {
