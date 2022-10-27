@@ -7,6 +7,7 @@ export default function authMiddleware(req: Request, res: Response, next: NextFu
   const authorization = req.header('Authorization') as string;
 
   const auth = decode(authorization);
+  console.log('mid', auth);
   if (!auth) throw new HttpException('Token must be a valid token', StatusCodes.UNAUTHORIZED);
 
   next();

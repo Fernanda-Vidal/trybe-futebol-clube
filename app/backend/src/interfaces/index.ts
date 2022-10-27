@@ -45,7 +45,7 @@ export interface IMatchService {
   getByInProgress(search: string): Promise<Match[]>;
   createMatch(req: IReqMatch): Promise<INewMatch>;
   updateProgress(id:number): Promise<boolean>;
-  updateGoals(req: IReqGoals, id: number): Promise<any>;
+  updateGoals(req: IReqGoals, id: number): Promise<boolean>;
 }
 
 export interface INewMatch {

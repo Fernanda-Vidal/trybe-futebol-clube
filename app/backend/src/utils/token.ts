@@ -19,8 +19,8 @@ const encode = (payload: Omit<IUser, 'email' | 'password'>) => {
 
 const decode = (token: string) => {
   try {
-    const validate = jwt.verify(token, TOKEN_SECRET as Secret) as IUser;
-    return validate.role;
+    const validate = jwt.verify(token, TOKEN_SECRET as Secret) as string;
+    return validate;
   } catch (error) {
     return false;
   }

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import matchesMiddleware from '../middlewares/matchesMiddleware';
-
 import MatchController from '../controllers/MatchController';
 import MatchService from '../services/MatchService';
 import authMiddleware from '../middlewares/authMiddleware';

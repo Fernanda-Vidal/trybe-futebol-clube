@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import { Op } from 'sequelize';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import { IMatchService, INewMatch, IReqGoals, IReqMatch } from '../interfaces';
@@ -76,7 +75,7 @@ export default class MatchService implements IMatchService {
     return true;
   }
 
-  async updateGoals(req: IReqGoals, idMatch: number): Promise<any> {
+  async updateGoals(req: IReqGoals, idMatch: number): Promise<boolean> {
     const { homeTeamGoals, awayTeamGoals } = req;
     const [lineUpdated] = await this.model.update(
       { homeTeamGoals, awayTeamGoals },
