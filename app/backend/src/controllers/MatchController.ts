@@ -5,7 +5,8 @@ export default class MatcheController {
   constructor(private service: IMatchService) {
     this.getMatches = this.getMatches.bind(this);
     this.createMatch = this.createMatch.bind(this);
-    this.updateMatch = this.updateMatch.bind(this);
+    this.updateProgress = this.updateProgress.bind(this);
+    this.updateGoals = this.updateGoals.bind(this);
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
@@ -22,8 +23,13 @@ export default class MatcheController {
     return res.status(201).json(match);
   }
 
-  async updateMatch(req: Request, res: Response): Promise<Response> {
-    await this.service.updateMatch(parseInt(req.params.id, 10));
+  async updateProgress(req: Request, res: Response): Promise<Response> {
+    await this.service.updateProgress(parseInt(req.params.id, 10));
     return res.status(200).json({ message: 'Finished' });
+  }
+
+  async updateGoals(req: Request, res: Response): Promise<Response> {
+    await this.service.updateGoals(req.body, parseInt(req.params.id, 10));
+    return res.status(200).json({ message: 'Score updated' });
   }
 }

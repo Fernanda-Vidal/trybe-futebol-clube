@@ -1,7 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
+import { Op } from 'sequelize';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
-import { IMatchService, INewMatch, IReqMatch } from '../interfaces';
+import { IMatchService, INewMatch, IReqGoals, IReqMatch } from '../interfaces';
 import HttpException from '../utils/HttpException';
 
 export default class MatchService implements IMatchService {
@@ -12,7 +13,8 @@ export default class MatchService implements IMatchService {
     this.getAllMatches = this.getAllMatches.bind(this);
     this.getByInProgress = this.getByInProgress.bind(this);
     this.createMatch = this.createMatch.bind(this);
-    this.updateMatch = this.updateMatch.bind(this);
+    this.updateProgress = this.updateProgress.bind(this);
+    this.updateGoals = this.updateGoals.bind(this);
   }
 
   async getAllMatches(): Promise<Match[]> {
@@ -61,7 +63,7 @@ export default class MatchService implements IMatchService {
     return match;
   }
 
-  async updateMatch(id: number): Promise<boolean> {
+  async updateProgress(id: number): Promise<boolean> {
     const idExists = await this.model.findByPk(id);
     if (!idExists) throw new HttpException('There is no match with such id', StatusCodes.NOT_FOUND);
 
@@ -70,6 +72,19 @@ export default class MatchService implements IMatchService {
     });
     if (lineUpdated <= 0) {
       throw new HttpException('This match has finished', StatusCodes.BAD_REQUEST);
+    }
+    return true;
+  }
+
+  async updateGoals(req: IReqGoals, idMatch: number): Promise<any> {
+    const { homeTeamGoals, awayTeamGoals } = req;
+    const [lineUpdated] = await this.model.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id: idMatch } },
+    );
+
+    if (lineUpdated <= 0) {
+      throw new HttpException('Match not found', StatusCodes.NOT_FOUND);
     }
     return true;
   }

@@ -11,6 +11,7 @@ const matchesRoute = Router();
 
 matchesRoute.get('/', matchController.getMatches);
 matchesRoute.post('/', authMiddleware, matchesMiddleware, matchController.createMatch);
-matchesRoute.patch('/:id/finish', matchController.updateMatch);
+matchesRoute.patch('/:id', matchController.updateGoals);
+matchesRoute.patch('/:id/finish', authMiddleware, matchController.updateProgress);
 
 export default matchesRoute;
