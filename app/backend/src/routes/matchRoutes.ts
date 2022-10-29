@@ -13,5 +13,6 @@ matchesRoute.post('/matches', authMiddleware, matchesMiddleware, matchController
 matchesRoute.patch('/matches/:id', matchController.updateGoals);
 matchesRoute.patch('/matches/:id/finish', authMiddleware, matchController.updateProgress);
 matchesRoute.get('/leaderboard/home', matchController.leaderBoardHome);
+matchesRoute.get('/leaderboard/away', matchController.leaderBoardAway);
 
 export default matchesRoute;
