@@ -7,6 +7,7 @@ export default class MatcheController {
     this.createMatch = this.createMatch.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
     this.updateGoals = this.updateGoals.bind(this);
+    this.leaderBoardHome = this.leaderBoardHome.bind(this);
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
@@ -31,5 +32,10 @@ export default class MatcheController {
   async updateGoals(req: Request, res: Response): Promise<Response> {
     await this.service.updateGoals(req.body, parseInt(req.params.id, 10));
     return res.status(200).json({ message: 'Score updated' });
+  }
+
+  async leaderBoardHome(req: Request, res: Response): Promise<Response> {
+    const board = await this.service.leaderBoardHome();
+    return res.status(200).json(board);
   }
 }

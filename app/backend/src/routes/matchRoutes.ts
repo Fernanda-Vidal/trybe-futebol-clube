@@ -8,9 +8,10 @@ const matchService = new MatchService();
 const matchController = new MatchController(matchService);
 const matchesRoute = Router();
 
-matchesRoute.get('/', matchController.getMatches);
-matchesRoute.post('/', authMiddleware, matchesMiddleware, matchController.createMatch);
-matchesRoute.patch('/:id', matchController.updateGoals);
-matchesRoute.patch('/:id/finish', authMiddleware, matchController.updateProgress);
+matchesRoute.get('/matches', matchController.getMatches);
+matchesRoute.post('/matches', authMiddleware, matchesMiddleware, matchController.createMatch);
+matchesRoute.patch('/matches/:id', matchController.updateGoals);
+matchesRoute.patch('/matches/:id/finish', authMiddleware, matchController.updateProgress);
+matchesRoute.get('/leaderboard/home', matchController.leaderBoardHome);
 
 export default matchesRoute;

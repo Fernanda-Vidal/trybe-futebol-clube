@@ -1,12 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
+import Db from '../database/models/index';
 import { IMatchService, INewMatch, IReqGoals, IReqMatch } from '../interfaces';
 import HttpException from '../utils/HttpException';
+import queryHome from '../database/queries';
 
 export default class MatchService implements IMatchService {
   private model = Match;
   private teamModel = Team;
+  private db = Db;
 
   constructor() {
     this.getAllMatches = this.getAllMatches.bind(this);
@@ -14,6 +17,7 @@ export default class MatchService implements IMatchService {
     this.createMatch = this.createMatch.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
     this.updateGoals = this.updateGoals.bind(this);
+    this.leaderBoardHome = this.leaderBoardHome.bind(this);
   }
 
   async getAllMatches(): Promise<Match[]> {
@@ -88,10 +92,8 @@ export default class MatchService implements IMatchService {
     return true;
   }
 
-  // async totalPoints() {
-  //   const matches = this.model.findAll({ where: { inProgress: false } });
-  //   const teams = (await matches).reduce<any>((acc, curr) => {
-  //     acc[curr.id]
-  //   }, {});
-  // }
+  async leaderBoardHome(): Promise<any> {
+    const [board] = await this.db.query(queryHome);
+    return board;
+  }
 }
