@@ -45,6 +45,7 @@ export interface IMatchService {
   createMatch(req: IReqMatch): Promise<INewMatch>;
   updateProgress(id:number): Promise<boolean>;
   updateGoals(req: IReqGoals, id: number): Promise<boolean>;
+  leaderBoardHome(): Promise<any>;
 }
 
 export interface INewMatch {
@@ -54,4 +55,17 @@ export interface INewMatch {
   awayTeam: number,
   awayTeamGoals: number,
   inProgress: boolean,
+}
+
+export interface ILeaderBoardHome {
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
 }

@@ -113,22 +113,4 @@ describe('Teste da rota /login', () => {
       expect(httpResponse.body).to.have.property('token');
     })
   })
-
-  // describe('quando a senha está incorreta', () => {
-  //   const user = { id: 1, username: 'qualquer-nome', role: 'admin', email: 'admin@admin.com', password: 'secret_admi' }
-  //   beforeEach(() => {
-  //     sinon.stub(Model, 'findOne').resolves(user as User)
-  //     sinon.stub(bcrypt, 'compareSync').resolves(false)
-  //   })
-  //   afterEach(() => sinon.restore())
-
-  //   it('POST - quando os campos "email" e "password" estiverem corretos', async () => {
-  //     const httpResponse = await chai
-  //     .request(app)
-  //     .post('/login')
-  //     .send({ email: 'admin@admin.com', password: 'secret_admi' })
-  //     expect(httpResponse.status).to.be.equal(401);
-  //     expect(httpResponse.body).to.have.property('Invalid Token');
-  //   })
-  // })
 });
