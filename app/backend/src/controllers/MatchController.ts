@@ -40,7 +40,7 @@ export default class MatcheController {
     return res.status(200).json(board);
   }
 
-  async leaderBoardAway(req: Request, res: Response) {
+  async leaderBoardAway(req: Request, res: Response): Promise<Response> {
     const board = await this.service.leaderBoardAway();
     return res.status(200).json(board);
   }
