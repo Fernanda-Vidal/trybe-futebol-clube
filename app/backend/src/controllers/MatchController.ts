@@ -9,6 +9,7 @@ export default class MatcheController {
     this.updateGoals = this.updateGoals.bind(this);
     this.leaderBoardHome = this.leaderBoardHome.bind(this);
     this.leaderBoardAway = this.leaderBoardAway.bind(this);
+    this.leaderBoard = this.leaderBoard.bind(this);
   }
 
   async getMatches(req: Request, res: Response): Promise<Response> {
@@ -42,6 +43,11 @@ export default class MatcheController {
 
   async leaderBoardAway(req: Request, res: Response): Promise<Response> {
     const board = await this.service.leaderBoardAway();
+    return res.status(200).json(board);
+  }
+
+  async leaderBoard(req: Request, res: Response): Promise<Response> {
+    const board = await this.service.leaderBoard();
     return res.status(200).json(board);
   }
 }

@@ -14,5 +14,6 @@ matchesRoute.patch('/matches/:id', matchController.updateGoals);
 matchesRoute.patch('/matches/:id/finish', authMiddleware, matchController.updateProgress);
 matchesRoute.get('/leaderboard/home', matchController.leaderBoardHome);
 matchesRoute.get('/leaderboard/away', matchController.leaderBoardAway);
+matchesRoute.get('/leaderboard', matchController.leaderBoard);
 
 export default matchesRoute;

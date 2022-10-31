@@ -47,6 +47,7 @@ export interface IMatchService {
   updateGoals(req: IReqGoals, id: number): Promise<boolean>;
   leaderBoardHome(): Promise<any>;
   leaderBoardAway(): Promise<any>;
+  leaderBoard(): Promise<any>;
 }
 
 export interface INewMatch {

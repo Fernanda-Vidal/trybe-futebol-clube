@@ -6,6 +6,7 @@ import { IMatchService, INewMatch, IReqGoals, IReqMatch } from '../interfaces';
 import HttpException from '../utils/HttpException';
 import queryHome from '../database/queries/queryHome';
 import queryAway from '../database/queries/queryAway';
+import queryLeader from '../database/queries/queryLeader';
 
 export default class MatchService implements IMatchService {
   private model = Match;
@@ -20,6 +21,7 @@ export default class MatchService implements IMatchService {
     this.updateGoals = this.updateGoals.bind(this);
     this.leaderBoardHome = this.leaderBoardHome.bind(this);
     this.leaderBoardAway = this.leaderBoardAway.bind(this);
+    this.leaderBoard = this.leaderBoard.bind(this);
   }
 
   async getAllMatches(): Promise<Match[]> {
@@ -101,6 +103,11 @@ export default class MatchService implements IMatchService {
 
   async leaderBoardAway(): Promise<any> {
     const [board] = await this.db.query(queryAway);
+    return board;
+  }
+
+  async leaderBoard(): Promise<any> {
+    const [board] = await this.db.query(queryLeader);
     return board;
   }
 }
