@@ -28,7 +28,7 @@ Além disso, foram desenvolvidos testes de integração afim de garantir o bom f
 * Sinon
 * Docker
 
-## Como rodar o projeto
+## Como rodar o projeto com Docker
 
 1 - Navegue até a pasta desejada e rode o comando abaixo no terminal para clonar o projeto:
 
